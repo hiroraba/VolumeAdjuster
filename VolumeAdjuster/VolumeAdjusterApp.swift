@@ -128,6 +128,12 @@ struct ContentView: View {
     }
 
     var body: some View {
+        ZStack {
+            LinearGradient(colors: [.accentColor, .purple],
+                           startPoint: .topLeading,
+                           endPoint: .bottomTrailing)
+                .ignoresSafeArea()
+
             VStack(alignment: .leading, spacing: 20) {
                 // 大きな数値表示 + 進捗インジケータ
                 VStack(alignment: .leading, spacing: 12) {
@@ -137,9 +143,11 @@ struct ContentView: View {
                         .minimumScaleFactor(0.5)
                         .accessibilityLabel("音量")
                         .accessibilityValue(Text(percentText))
+                        .foregroundColor(.white)
 
                     ProgressView(value: Double(observer.volume), total: 1.0)
                         .progressViewStyle(.linear)
+                        .tint(.white)
                         .frame(height: 10)
                         .clipShape(Capsule())
                         .accessibilityHidden(true)
@@ -147,7 +155,7 @@ struct ContentView: View {
 
                 Text("システム音量")
                     .font(.footnote)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(.white.opacity(0.8))
 
                 // 太い純正スライダー
                 MPVolumeSliderView(controller: controller)
@@ -156,7 +164,7 @@ struct ContentView: View {
                 // 微調整（±5%）
                 Text("微調整（±5%）")
                     .font(.footnote)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(.white.opacity(0.8))
                 nudgeRow
 
                 // クイックプリセット
@@ -165,8 +173,11 @@ struct ContentView: View {
                 Spacer()
             }
             .padding(24)
-            .navigationTitle("ボリューム")
-            .navigationBarTitleDisplayMode(.inline)
+        }
+        .navigationTitle("ボリューム")
+        .navigationBarTitleDisplayMode(.inline)
+        .preferredColorScheme(.dark)
+        .tint(.accentColor)
     }
 
     // プリセットボタン群：ミュート／30%／50%／70%／最大
